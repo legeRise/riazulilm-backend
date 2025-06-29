@@ -8,3 +8,4 @@ python-dotenv==1.1.1
 requests==2.32.4
 supabase==2.16.0
 supafunc==0.10.1
+whitenoise==6.9.0
