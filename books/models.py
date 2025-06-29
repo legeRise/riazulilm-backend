@@ -9,8 +9,8 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
     published_date = models.DateField()
     pages = models.IntegerField()
-    cover_image = models.URLField(blank=True, null=True)
-    download_url = models.URLField(blank=True, null=True)
+    cover_image = models.URLField(max_length=500,blank=True, null=True)
+    download_url = models.URLField(max_length=500,blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
