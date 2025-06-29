@@ -175,9 +175,9 @@ DJOSER = {
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND' : True,  # Show email not found message
     'PASSWORD_RESET_CONFIRM_RETYPE' : True,  # Confirm password retype
     
-    'EMAIL_FRONTEND_PROTOCOL' : 'http',  # Protocol for email links
+    'EMAIL_FRONTEND_PROTOCOL' : 'https',  # Protocol for email links
     'EMAIL_FRONTEND_SITE_NAME' : "Riazulilm",
-    'EMAIL_FRONTEND_DOMAIN': 'localhost:5173',  # Domain for email links
+    'EMAIL_FRONTEND_DOMAIN': 'riazulilm-frontend.onrender.com',  # Domain for email links
 
     # user serializer settings
     'SERIALIZERS': {
