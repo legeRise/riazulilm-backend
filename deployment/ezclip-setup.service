@@ -1,0 +1,13 @@
+[Unit]
+Description=EZClip Setup Script
+After=network.target
+
+[Service]
+User=habib
+WorkingDirectory=/home/habib/ezclip-backend
+ExecStart=/bin/bash /home/habib/riazulilm-backend/scripts/production/uv_setup.sh
+Type=oneshot
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

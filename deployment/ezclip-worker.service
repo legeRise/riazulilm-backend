@@ -1,0 +1,12 @@
+[Unit]
+Description=EZClip Worker via worker.sh
+After=network.target
+
+[Service]
+User=habib
+WorkingDirectory=/home/habib/ezclip-backend
+ExecStart=/bin/bash /home/habib/ezclip-backend/scripts/celery/run_worker.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

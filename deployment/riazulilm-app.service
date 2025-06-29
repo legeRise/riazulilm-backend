@@ -1,0 +1,15 @@
+[Unit]
+Description=Riazulilm Django App via Gunicorn
+After=network.target
+
+[Service]
+User=habib
+WorkingDirectory=/home/habib/riazulilm-backend
+ExecStart=/bin/bash /home/habib/riazulilm-backend/scripts/production/run.sh
+Restart=always
+StandardOutput=journal
+StandardError=inherit
+
+[Install]
+WantedBy=multi-user.target
+
