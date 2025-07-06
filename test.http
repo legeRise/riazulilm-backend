@@ -1,0 +1,27 @@
+POST http://127.0.0.1:8000/api/books/get-upload-url/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUxNzgxNTEzLCJpYXQiOjE3NTE3ODEyMTMsImp0aSI6IjQ4Njg3NWU0ZWNhODQwNzdhNDNmMGE3MDMwZmIyZWIyIiwidXNlcl9pZCI6MTR9.daJPr_dIjUMjlEmCDgkWrrIFl3TyaVfprY0V_s1Pfgw
+
+{
+    "file_name": "example.pdf",
+    "content_type": "application/pdf",
+    "folder": "books"
+}
+
+### Request to sign in
+
+POST http://127.0.0.1:8000/api/auth/jwt/create/
+Content-Type: application/json
+
+{
+    "email": "y@gmail.com",
+    "password": "wowwow99"
+}
+
+
+### 📤 3. Upload PDF File to R2 (paste signed URL from previous response)
+
+PUT https://56cbe11e5e866e8f7ca2d7b94ec345a3.r2.cloudflarestorage.com/riazulilm-books/books/example.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=951a0c96b5413b4b2b7b07bee043bf7c%2F20250705%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20250705T172617Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=content-type%3Bhost&X-Amz-Signature=8b96b8af26f02ddb3e1f1d4f19dd42b0cf3ee47f184911b8edd223262bb19297
+Content-Type: application/pdf
+
+< ./example.pdf

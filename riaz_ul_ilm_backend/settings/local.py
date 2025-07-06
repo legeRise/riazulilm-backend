@@ -13,21 +13,10 @@ CORS_ALLOWED_ORIGINS = ['http://localhost:3000', 'http://localhost:5173', 'http:
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('SUPABASE_DB_NAME'),      # Supabase database name
-        'USER': os.getenv('SUPABASE_DB_USER'),      # Supabase username (usually 'postgres')
-        'PASSWORD': os.getenv('SUPABASE_DB_PASSWORD'),  # Your Supabase database password
-        'HOST': os.getenv('SUPABASE_DB_HOST'),      # Supabase session pooler host (host URL, without 'postgresql://')
-        'PORT': os.getenv('SUPABASE_DB_PORT', '5432'),  # Default PostgreSQL port
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

@@ -4,7 +4,7 @@ from pathlib import Path
 # from celery.schedules import crontab
 from datetime import timedelta
 
-load_dotenv()
+load_dotenv(override=True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -103,10 +103,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -118,35 +115,44 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
-# # Celery settings
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-
-
-# # Celery Beat (task scheduler) settings
-# CELERY_BEAT_SCHEDULE = {
-#     'clean_local_video_assets': {
-#         'task': 'text2video.tasks.clean_local_video_assets',
-#         'schedule': crontab(minute=0, hour='*/6'),  # Every 6 hours
-#     },
-#     'clean_supabase_storage': {
-#         'task': 'text2video.tasks.clean_supabase_storage',
-#         'schedule': crontab(minute='*/30', hour='*'),  # Every 30 minutes
-#     },
-#     'mark_stuck_generations_as_failed': {
-#         'task': 'text2video.tasks.mark_stuck_generations_as_failed',
-#         'schedule': crontab(minute='*/15', hour='*'),  # Every 30 minutes
-#     },
-# }
+# R2 Storage settings
+R2_ENDPOINT_URL= os.getenv("R2_ENDPOINT_URL", "") 
+R2_ACCESS_KEY_ID= os.getenv("R2_ACCESS_KEY_ID", "")  
+R2_SECRET_ACCESS_KEY= os.getenv("R2_SECRET_ACCESS_KEY", "")  
+R2_BUCKET_NAME= os.getenv("R2_BUCKET_NAME", "riazulilm-books")  
 
 
-# Supabse storage settings
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-SUPABASE_BUCKET_NAME = os.getenv("SUPABASE_BUCKET_NAME", "books")
-SUPABASE_FOLDER_NAME = os.getenv("SUPABASE_FOLDER_NAME", "all_books")
+
+CLOUDFLARE_R2_CONFIG_OPTIONS = {
+    "bucket_name": 'riazulilm-static', # special bucket for static files 
+    "default_acl": "public-read",  # "private"
+    "signature_version": "s3v4",
+    "endpoint_url": R2_ENDPOINT_URL,
+    "access_key": R2_ACCESS_KEY_ID,
+    "secret_key": R2_SECRET_ACCESS_KEY, 
+    "default_acl": "public-read",  # Set to "private" if you want private access
+    "region_name": "auto",  # Use "auto" for Cloudflare R2
+    "signature_version": "s3v4",  # Use S3v4 signature version
+    
+    }
+
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+                    **CLOUDFLARE_R2_CONFIG_OPTIONS,
+            "location": "static",  # Optional: specify a subdirectory for media files
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+            **CLOUDFLARE_R2_CONFIG_OPTIONS,
+            "location": "static",  # Optional: specify a subdirectory for static files
+        },
+    },
+}
 
 
 # Authentication settings
@@ -190,21 +196,7 @@ DJOSER = {
 AUTH_USER_MODEL = 'authapp.CustomUser'  # Use the custom user model
 
 
-# # Cache settings
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",  # Correct backend
-#         "LOCATION": "redis://localhost:6379/1",  # Redis database 1
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",  # Default client class
-#         },
-#     }
-# }
-
-
-
-
-# SIMPLE_JWT = {
-#     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-#     "REFRESH_TOKEN_LIFETIME": timedelta(days=1)
-#     }
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1)
+    }

@@ -3,13 +3,14 @@ from .models import Book
 
 class BookSerializer(serializers.ModelSerializer):
     formatted_date = serializers.SerializerMethodField()
+    download_url = serializers.SerializerMethodField()  # <-- Add this line
 
     class Meta:
         model = Book
-        fields = '__all__'
-        # Optionally, you can add 'formatted_date' explicitly:
-        # fields = ['id', 'title', ..., 'formatted_date']
+        fields = '__all__'  # This will now include download_url and formatted_date
 
     def get_formatted_date(self, obj):
-        # You can use the property or format it here
         return obj.formatted_date
+
+    def get_download_url(self, obj):
+        return obj.download_url  # Uses the @property from your model
