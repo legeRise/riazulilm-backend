@@ -1,15 +1,10 @@
-from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 from .models import Book
 from .serializers import BookSerializer
-from django.conf import settings
-from services.supabase_storage import upload_file_to_bucket, get_public_url
 from services.r2_storage import R2Storage
-import tempfile
 from rest_framework import status
-import uuid
 
 # Create your views here.
 

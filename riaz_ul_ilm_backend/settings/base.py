@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'djoser',
-    # 'django_celery_beat',
 
 ]
 
