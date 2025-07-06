@@ -5,6 +5,7 @@ from .models import Book
 from .serializers import BookSerializer
 from services.r2_storage import R2Storage
 from rest_framework import status
+from botocore.exceptions import ClientError  # Add this import
 
 # Create your views here.
 
@@ -41,6 +42,15 @@ def add_book(request):
 def delete_book(request, book_id):
     try:
         book = Book.objects.get(id=book_id)
+        
+        # Delete the PDF from R2 storage if pdf_key exists
+        if book.pdf_key:
+            r2 = R2Storage()
+            try:
+                r2.delete(book.pdf_key)
+            except ClientError as e:
+                print(f"Error deleting PDF from storage: {e}")
+        
         book.delete()
         return Response({'message': 'Book deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
     except Book.DoesNotExist:
