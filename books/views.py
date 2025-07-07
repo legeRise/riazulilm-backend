@@ -24,7 +24,7 @@ def all_books(request):
 @permission_classes([IsAdminUser])
 def add_book(request):
     print("actual data: ",request.data)
-    data = request.data.copy()
+    data = request.data
     print("data is : ",data)
     book_serializer = BookSerializer(data=data)
     if not book_serializer.is_valid():
