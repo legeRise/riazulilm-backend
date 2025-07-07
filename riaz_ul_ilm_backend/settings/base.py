@@ -98,21 +98,11 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = '/static/'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-# Media Settings
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # R2 Storage settings
 R2_ENDPOINT_URL= os.getenv("R2_ENDPOINT_URL", "") 
@@ -140,10 +130,13 @@ STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
         "OPTIONS": {
+            # this syntax means that this 'OPTIONS' dict will have all keys from the other dict + the location key as well
                     **CLOUDFLARE_R2_CONFIG_OPTIONS,
-            "location": "static",  # Optional: specify a subdirectory for media files
+            "location": "media",  # key "default" refers to media files so this applies on ImageField and FileField
         },
     },
+    # just like 'default' 'staticfiles' is a special key that refers to static files
+    # else the ERRORS: (staticfiles.E005) The STORAGES setting must define a 'staticfiles' storage.
     "staticfiles": {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
         "OPTIONS": {
